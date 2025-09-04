@@ -12,8 +12,9 @@
         //Construtor é a primeira coisa que é executada quando uma classe é instanciada.
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
-            if(!TemIdadeMinima())
-            { 
+
+            if (!TemIdadeMinima())
+            {
                 throw new Exception("Usuário deve ter no mínimo 13 anos.");
             }
 
@@ -46,7 +47,7 @@
         {
             if (senha.Length < 6)
             {
-                //Todo fazer um tratamento de erro melhor
+                //Todo Fazer um tratamento de erro melhor
             }
             return senha;
         }
