@@ -31,5 +31,20 @@ namespace MeuCorre.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AtualizarUsuario(Guid id, [FromBody] AtualizarUsuarioCommand command)
+        {
+            command.Id = id;
+            var (mensagem, sucesso) = await _mediator.Send(command);
+            if (sucesso)
+            {
+                return Ok(mensagem);
+            }
+            else
+            {
+                return NotFound(mensagem);
+            }
+        }
+
     }
 }

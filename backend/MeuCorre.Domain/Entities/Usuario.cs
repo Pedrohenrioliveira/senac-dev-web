@@ -28,6 +28,24 @@ namespace MeuCorre.Domain.Entities
             Ativo = ativo;
         }
 
+        public void AtualizarInformacoes(string nome, DateTime dataNascimento)
+        {
+            ValidarIdadeMinina(dataNascimento);
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            AtualizarDataMoficacao();
+        }
+        public void AtivarUsuario()
+        {
+            Ativo = true;
+            AtualizarDataMoficacao();
+        }
+
+        public void InativarUsuario()
+        {
+            Ativo = false;
+            AtualizarDataMoficacao();
+        }
 
         private void ValidarEntidadeUsuario(string email, string senha, DateTime nascimento)
         {
@@ -35,7 +53,24 @@ namespace MeuCorre.Domain.Entities
             ValidarSenha(senha);
             ValidarEmail(email);
         }
-        //Regra negocio: Permite apenas usários maiores de 13 anos.
+
+        public void ValidarSenha(string senha)
+        {
+            //Regra de dnegocio: pelo menos uma letra e um número.
+            if (!Regex.IsMatch(senha, "[a-z]"))
+            {
+                throw new Exception("A senha deve contar pelo menos uma letra minuscula");
+            }
+            if (!Regex.IsMatch(senha, "[A-Z]"))
+            {
+                throw new Exception("A senha deve contar pelo menos uma letra maiuscula");
+            }
+            if (!Regex.IsMatch(senha, "[0-9]"))
+            {
+                throw new Exception("A senha deve contar pelo menos um números");
+            }
+        }
+
         private void ValidarIdadeMinina(DateTime nascimento)
         {
             var hoje = DateTime.Today;
@@ -51,23 +86,6 @@ namespace MeuCorre.Domain.Entities
             }
         }
 
-        public void ValidarSenha(string senha)
-        {
-            //Regra de dnegocio: pelo menos uma letra e um número.
-            if (!Regex.IsMatch(senha, "[a-z]"))
-            {
-                throw new Exception("A senha deve contar pelo menos uma letra minuscula");
-            }
-            if (!Regex.IsMatch(senha, "[A-Z]"))
-            {
-                throw new Exception("A senha deve contar pelo menos uma letra maiuscula");
-            }
-            if (!Regex.IsMatch(senha,"[0-9]"))
-            {
-                throw new Exception("A senha deve contar pelo menos um números");
-            }
-        }
-
         private void ValidarEmail(string email)
         {
             //Regra de negocio: email deve conter @ e um domínio válido.
@@ -75,17 +93,6 @@ namespace MeuCorre.Domain.Entities
             {
                 throw new Exception("Email em formato inválido");
             }
-        }
-        public void AtivarUsuario()
-        {
-            Ativo = true;
-            AtualizarDataMoficacao();
-        }
-
-        public void InativarUsuario()
-        {
-            Ativo = false;
-            AtualizarDataMoficacao();
         }
     }
 }
