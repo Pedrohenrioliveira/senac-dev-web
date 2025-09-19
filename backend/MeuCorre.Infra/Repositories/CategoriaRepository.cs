@@ -3,11 +3,6 @@ using MeuCorre.Domain.Enums;
 using MeuCorre.Domain.Interfaces.Repositories;
 using MeuCorre.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeuCorre.Infra.Repositories
 {
@@ -25,9 +20,9 @@ namespace MeuCorre.Infra.Repositories
             return categoria;
         }
 
-        public async Task<IEnumerable<Categoria>> ListarTodasPorUsuarioAsync(Guid usuarioId)
+        public async Task<IList<Categoria>> ListarTodasPorUsuarioAsync(Guid usuarioId)
         {
-            var listaCategorias = _meuDbContext.Categorias
+            var listaCategorias =  _meuDbContext.Categorias
                 .Where(c => c.UsuarioId == usuarioId);
 
             return await listaCategorias.ToListAsync();
@@ -45,7 +40,7 @@ namespace MeuCorre.Infra.Repositories
         {
             var existe = await _meuDbContext.Categorias
                 .AnyAsync(
-                            c => c.Nome == nome &&
+                            c => c.Nome == nome && 
                             c.UsuarioId == usuarioId &&
                             c.TipoDaTransacao == tipo
                         );

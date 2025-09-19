@@ -1,5 +1,5 @@
-﻿using MeuCorre.Domain.Enums;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using MeuCorre.Domain.Enums;
 
 namespace MeuCorre.Domain.Entities
 {
@@ -17,7 +17,7 @@ namespace MeuCorre.Domain.Entities
         // o usuário pode ter várias categorias
         public virtual Usuario Usuario { get; private set; }
 
-        public Categoria(Guid usuarioId, string nome, TipoTransacao tipoDaTransacao, bool Ativo, string? descricao, string? cor, string? icone)
+        public Categoria(Guid usuarioId, string nome, TipoTransacao tipoDaTransacao, string? descricao, string? cor, string? icone)
         {
             ValidarEntidadeCategoria(cor);
 
@@ -30,7 +30,8 @@ namespace MeuCorre.Domain.Entities
             Ativo = true;
         }
 
-        public void AtualizarInformacoes(string nome, TipoTransacao tipoDaTransacao, bool Ativo, string descricao, string cor, string icone)
+        public void AtualizarInformacoes(string nome, TipoTransacao tipoDaTransacao,
+                                         string descricao, string cor, string icone)
         {
             Nome = nome.ToUpper();
             Descricao = descricao;
@@ -45,7 +46,6 @@ namespace MeuCorre.Domain.Entities
             Ativo = true;
             AtualizarDataMoficacao();
         }
-
         public void Inativar()
         {
             Ativo = false;
@@ -54,14 +54,15 @@ namespace MeuCorre.Domain.Entities
 
         private void ValidarEntidadeCategoria(string cor)
         {
-            if(string.IsNullOrWhiteSpace(cor))
+            if (string.IsNullOrEmpty(cor))
             {
-                return;
+                return; //retorna caso a cor seja nula ou vazia
             }
 
-            var CorRegex = new Regex(@"^#?([0-9a-fA-F]{3}){1,2}$");
+            //#FF02AB
+            var corRegex = new Regex(@"^#?([0-9a-fA-F]{3}){1,2}$");
 
-            if (!CorRegex.IsMatch(cor))
+            if (!corRegex.IsMatch(cor))
             {
                 throw new Exception("A cor deve estar no formato hexadecimal");
             }
