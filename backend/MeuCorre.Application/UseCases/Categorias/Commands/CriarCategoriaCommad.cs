@@ -28,21 +28,22 @@ namespace MeuCorre.Application.UseCases.Categorias.Commands
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public CriarCategoriaCommandHandler(ICategoriaRepository categoriaRepository, IUsuarioRepository usuarioRepository)
+        public CriarCategoriaCommandHandler(ICategoriaRepository categoriaRepository, 
+                                            IUsuarioRepository usuarioRepository)
         {
             _categoriaRepository = categoriaRepository;
             _usuarioRepository = usuarioRepository;
-
         }
 
         public async Task<(string, bool)> Handle(CriarCategoriaCommad request, CancellationToken cancellationToken)
         {
+            //VERIFICAR SE O USUÁRIO EXISTE
             var usuario = await _usuarioRepository.ObterUsuarioPorId(request.UsuarioId);
             if (usuario == null)
             {
-                return ("Usuário não encontrado", false);
+                return ("Usuário inválido", false);
             }
-
+            
             //NÃO PODE CADASTRAR CATEGORIA REPETIDA PARA O MESMO USUÁRIO
             var existe =
                 await _categoriaRepository.NomeExisteParaUsuarioAsync(

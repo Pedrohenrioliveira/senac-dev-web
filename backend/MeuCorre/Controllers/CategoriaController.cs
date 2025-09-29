@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using MeuCorre.Application.UseCases.Categorias.Commands;
+using MeuCorre.Application.UseCases.Categorias.Dtos;
 using MeuCorre.Application.UseCases.Categorias.Queries;
 using MeuCorre.Application.UseCases.Usuarios.Commands;
-using MeuCorre.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeuCorre.Controllers
@@ -18,14 +18,14 @@ namespace MeuCorre.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// Cria uma nova categoria para o usuário.
-        /// </summary>
-        /// <param name="command">OS dados da nova categoria</param>
-        /// <returns>Retorna uma nova categoria criada</returns>
 
+        /// <summary>
+        /// Cria uma nova categoria para o usuário
+        /// </summary>
+        /// <param name="command">Os dados da nova categoria</param>
+        /// <returns>Retorna uma nova categoria criada</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(Categoria), 201)]
+        [ProducesResponseType(typeof(CategoriaDto), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         public async Task<IActionResult> CriarCategoria([FromBody] CriarCategoriaCommad command)
@@ -69,15 +69,14 @@ namespace MeuCorre.Controllers
             }
         }
 
-        [HttpPatch("{id}/ativar")]
-        public async Task<IActionResult> AtivarCaregoria(Guid id)
+        [HttpPatch("ativar/{id}")]
+        public async Task<IActionResult> AtivarCategoria(Guid id)
         {
             var command = new AtivarCategoriaCommand { CategoriaId = id };
-            var resultado = await _mediator.Send(command);
             var (mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
             {
-                return NoContent();
+                return Ok(mensagem);
             }
             else
             {
@@ -85,11 +84,11 @@ namespace MeuCorre.Controllers
             }
         }
 
-        [HttpPatch("{id}/Desativar")]
-        public async Task<IActionResult> InativarCaregoria(Guid id)
+
+        [HttpPatch("inativar/{id}")]
+        public async Task<IActionResult> InativarCategoria(Guid id)
         {
             var command = new InativarCategoriaCommand { CategoriaId = id };
-            var resultado = await _mediator.Send(command);
             var (mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
             {
@@ -101,11 +100,10 @@ namespace MeuCorre.Controllers
             }
         }
 
+
         [HttpGet]
-
-        public async Task<IActionResult> ObterCategorias([FromQuery] ListarTodasCategoriasQuery query)
+        public async Task<IActionResult> ObterCategoriasPorUsuario([FromQuery] ListarTodasCategoriasQuery query)
         {
-
             var categorias = await _mediator.Send(query);
             return Ok(categorias);
         }
@@ -122,5 +120,5 @@ namespace MeuCorre.Controllers
             return Ok(categoria);
         }
     }
-}
 
+}
