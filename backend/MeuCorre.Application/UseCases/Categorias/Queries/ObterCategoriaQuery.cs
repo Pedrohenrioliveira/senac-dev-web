@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MediatR;
 using MeuCorre.Application.UseCases.Categorias.Dtos;
+using MeuCorre.Application.UseCases.Contas.Queries;
+using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Interfaces.Repositories;
 
 namespace MeuCorre.Application.UseCases.Categorias.Queries
@@ -11,32 +13,36 @@ namespace MeuCorre.Application.UseCases.Categorias.Queries
         public required Guid CategoriaId { get; set; }
     }
 
-    internal class ObterCategoriaQueryHandler : IRequestHandler<ObterCategoriaQuery, CategoriaDto>
+    internal class ObterContaQueryHandler : IRequestHandler<ObterContaQuery, ContaDetalheDto>
     {
-        private readonly ICategoriaRepository _categoriaRepository;
-        public ObterCategoriaQueryHandler(ICategoriaRepository categoriaRepository)
+        private readonly IContaRepository<Conta> _contaRepository;
+
+        public ObterContaQueryHandler(IContaRepository<Conta> contaRepository)
         {
-            _categoriaRepository = categoriaRepository;
+            _contaRepository = contaRepository;
         }
 
-        public async Task<CategoriaDto> Handle(ObterCategoriaQuery request, CancellationToken cancellationToken)
+        public async Task<ContaDetalheDto> Handle(ObterContaQuery request, CancellationToken cancellationToken)
         {
-            var categoria = await _categoriaRepository.ObterPorIdAsync(request.CategoriaId);
+            var conta = await _contaRepository.ObterPorIdEUsuarioAsync(request.ContaId, request.UsuarioId);
 
-            if (categoria == null)
+            if (conta == null)
                 return null;
 
-            var categoriaDto = new CategoriaDto
+            var contaDto = new ContaDetalheDto
             {
-                Nome = categoria.Nome,
-                Ativo = categoria.Ativo,
-                Tipo = categoria.TipoDaTransacao,
-                Cor = categoria.Cor,
-                Descricao = categoria.Descricao,
-                Icone = categoria.Icone,
+                Id = conta.Id,
+                Nome = conta.Nome,
+                Tipo = conta.Tipo,
+                Saldo = conta.Saldo,
+                Ativo = conta.Ativo,
+                LimiteDisponivel = conta.EhCartaoCredito() ? (conta.Limite ?? 0) - conta.Saldo : null,
+                QuantidadeTransacoes = 0, // mock
+                TotalReceitas = 0,        // mock
+                TotalDespesas = 0         // mock
             };
 
-            return categoriaDto;
+            return contaDto;
         }
     }
 }

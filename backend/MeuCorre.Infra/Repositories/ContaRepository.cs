@@ -65,7 +65,6 @@ namespace MeuCorre.Infra.Repositories
                 .SumAsync(c => c.Saldo);
         }
 
-        // Opcional: métodos extras de criação, atualização e remoção
         public async Task CriarContaAsync(Conta conta)
         {
             await _meuDbContext.Contas.AddAsync(conta);

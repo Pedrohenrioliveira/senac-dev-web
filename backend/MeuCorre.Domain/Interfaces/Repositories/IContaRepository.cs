@@ -1,8 +1,6 @@
 ﻿using MeuCorre.Domain.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeuCorre.Domain.Interfaces.Repositories
@@ -14,5 +12,8 @@ namespace MeuCorre.Domain.Interfaces.Repositories
         Task<Conta?> ObterPorIdEUsuarioAsync(Guid contaId, Guid usuarioId);
         Task<bool> ExisteContaComNomeAsync(Guid usuarioId, string nome, Guid? contaIdExcluir = null);
         Task<decimal> CalcularSaldoTotalAsync(Guid usuarioId);
+
+        // Novo método para atualizar a conta
+        Task AtualizarAsync(Conta conta);
     }
 }
