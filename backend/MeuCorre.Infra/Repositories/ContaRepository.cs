@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeuCorre.Infra.Repositories
@@ -71,7 +70,8 @@ namespace MeuCorre.Infra.Repositories
             await _meuDbContext.SaveChangesAsync();
         }
 
-        public async Task AtualizarContaAsync(Conta conta)
+        // CORRIGIDO: nome do método agora bate com a interface
+        public async Task AtualizarAsync(Conta conta)
         {
             _meuDbContext.Contas.Update(conta);
             await _meuDbContext.SaveChangesAsync();
