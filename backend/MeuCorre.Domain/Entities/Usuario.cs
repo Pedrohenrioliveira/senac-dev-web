@@ -20,12 +20,13 @@ namespace MeuCorre.Domain.Entities
         public Usuario(string nome, string email, string senha, DateTime dataNascimento, bool ativo)
         {
             ValidarEntidadeUsuario(email, senha, dataNascimento);
-            
+
             Nome = nome;
             Email = email;
             Senha = senha;
             DataNascimento = dataNascimento;
             Ativo = ativo;
+            Categorias = new List<Categoria>(); // Inicializando a propriedade 'Categorias'
         }
 
         public void AtualizarInformacoes(string nome, DateTime dataNascimento)
