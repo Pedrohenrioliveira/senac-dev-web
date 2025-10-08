@@ -25,11 +25,12 @@ namespace MeuCorre.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CriarConta([FromBody] CriarContaCommand command)
         {
-            var (mensagem, sucesso) = await _mediator.Send(command);
-            if (sucesso)
-                return CreatedAtAction(nameof(ObterConta), new { id = command.Id }, mensagem);
+            var response = await _mediator.Send(command);
+
+            if (response.Sucesso)
+                return CreatedAtAction(nameof(ObterConta), new { id = response.Id }, response.Mensagem);
             else
-                return Conflict(mensagem);
+                return Conflict(response.Mensagem);
         }
 
         /// <summary>
@@ -39,8 +40,7 @@ namespace MeuCorre.API.Controllers
         public async Task<IActionResult> ListarContas([FromQuery] TipoConta? tipo, [FromQuery] bool apenasAtivas = true, [FromQuery] string ordenarPor = "Nome")
         {
             var query = new ListarContasQuery
-            {
-                Tipo = tipo,
+            {              
                 ApenasAtivas = apenasAtivas,
                 OrdenarPor = ordenarPor
             };

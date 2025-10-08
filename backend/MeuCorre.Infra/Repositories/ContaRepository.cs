@@ -82,5 +82,10 @@ namespace MeuCorre.Infra.Repositories
             _meuDbContext.Contas.Remove(conta);
             await _meuDbContext.SaveChangesAsync();
         }
+        public async Task RemoverAsync(Conta conta)
+        {
+            _meuDbContext.Contas.Remove(conta);
+            await _meuDbContext.SaveChangesAsync();
+        }
     }
 }
