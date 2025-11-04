@@ -2,18 +2,18 @@
 
 /* You can add global styles to this file, and also import other style files */
 :root{
-    --mc-blue-purple:#592EF2;
-    --mc-dark:#141926;
-    --mc-grey:#BFCAD9;
-    --mc-green:#29F280;
-    --mc-green-dark:#24733F;
+    --mc-blue-purple: #592EF2;
+    --mc-dark: #141926;
+    --mc-grey: #BFCAD9;
+    --mc-green: #29F280;
+    --mc-green-dark: #24733F;
 }
 
 .mc-bg-dark{
     background-color: var(--mc-dark);
 }
 
-.mc-bg-gray{
+.mc-bg-grey{
     background-color: var(--mc-grey);
 }
 
@@ -21,5 +21,20 @@
     color: var(--mc-green);
 }
 
-.mc_
+.btn-outline-secondary {
 
+    --bs-btn-color: #6c757d;
+    --bs-btn-border-color: #f2f4ef;
+    --bs-btn-hover-color: #989898;
+    --bs-btn-hover-bg: #6c757d;
+    --bs-btn-hover-border-color: #6c757d;
+    --bs-btn-focus-shadow-rgb: 108, 117, 125;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6c757d;
+    --bs-btn-active-border-color: #6c757d;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #6c757d;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #6c757d;
+    --bs-gradient: none;
+}
