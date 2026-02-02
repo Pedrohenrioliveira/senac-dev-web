@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MediatR;
 using MeuCorre.Application.UseCases.Categorias.Dtos;
-using MeuCorre.Application.UseCases.Contas.Queries;
-using MeuCorre.Domain.Entities;
 using MeuCorre.Domain.Interfaces.Repositories;
 
 namespace MeuCorre.Application.UseCases.Categorias.Queries
@@ -13,36 +11,32 @@ namespace MeuCorre.Application.UseCases.Categorias.Queries
         public required Guid CategoriaId { get; set; }
     }
 
-    internal class ObterContaQueryHandler : IRequestHandler<ObterContaQuery, ContaDetalheDto>
+    internal class ObterCategoriaQueryHandler : IRequestHandler<ObterCategoriaQuery, CategoriaDto>
     {
-        private readonly IContaRepository<Conta> _contaRepository;
-
-        public ObterContaQueryHandler(IContaRepository<Conta> contaRepository)
+        private readonly ICategoriaRepository _categoriaRepository;
+        public ObterCategoriaQueryHandler(ICategoriaRepository categoriaRepository)
         {
-            _contaRepository = contaRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<ContaDetalheDto> Handle(ObterContaQuery request, CancellationToken cancellationToken)
+        public async Task<CategoriaDto> Handle(ObterCategoriaQuery request, CancellationToken cancellationToken)
         {
-            var conta = await _contaRepository.ObterPorIdEUsuarioAsync(request.ContaId, request.UsuarioId);
+            var categoria = await _categoriaRepository.ObterPorIdAsync(request.CategoriaId);
 
-            if (conta == null)
+            if (categoria == null)
                 return null;
 
-            var contaDto = new ContaDetalheDto
+            var categoriaDto = new CategoriaDto
             {
-                Id = conta.Id,
-                Nome = conta.Nome,
-                Tipo = conta.Tipo,
-                Saldo = conta.Saldo,
-                Ativo = conta.Ativo,
-                LimiteDisponivel = conta.EhCartaoCredito() ? (conta.Limite ?? 0) - conta.Saldo : null,
-                QuantidadeTransacoes = 0, // mock
-                TotalReceitas = 0,        // mock
-                TotalDespesas = 0         // mock
+                Nome = categoria.Nome,
+                Ativo = categoria.Ativo,
+                Tipo = categoria.TipoDaTransacao,
+                Cor = categoria.Cor,
+                Descricao = categoria.Descricao,
+                Icone = categoria.Icone,
             };
 
-            return contaDto;
+            return categoriaDto;
         }
     }
 }

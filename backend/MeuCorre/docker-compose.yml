@@ -1,9 +1,10 @@
-﻿services:
+﻿version: "3.7"
+services:
   mysql-senac:
     container_name: mysql-senac
     image: mysql:8.0
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "testdb"

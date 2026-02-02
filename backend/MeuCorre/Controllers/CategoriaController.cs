@@ -61,7 +61,7 @@ namespace MeuCorre.Controllers
             var (mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
             {
-                return Ok(mensagem);
+                return NoContent();
             }
             else
             {
@@ -76,7 +76,7 @@ namespace MeuCorre.Controllers
             var (mensagem, sucesso) = await _mediator.Send(command);
             if (sucesso)
             {
-                return Ok(mensagem);
+                return NoContent();
             }
             else
             {
